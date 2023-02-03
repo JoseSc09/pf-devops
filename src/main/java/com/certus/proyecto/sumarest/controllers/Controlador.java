@@ -11,7 +11,7 @@ public class Controlador {
 
     @GetMapping("/")
     public String Home(){
-        return "Ejemplo GET: /suma?a=1&b=2 <br>response: 3";
+        return "Ejemplo GET: /suma?a=5&b=2 <br>response: 7";
     }
     @GetMapping("/suma")
     public ResponseEntity<?> Suma(@RequestParam Integer a,@RequestParam Integer b){
