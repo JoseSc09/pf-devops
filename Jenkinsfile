@@ -13,6 +13,11 @@ pipeline{
         stage('Build docker image'){
             steps{
                 script{
+					try{
+						bat "docker rmi josesc09/suma-rest"
+					} catch (Exception e){
+						bat "echo 'Exception ocurred: '+ e.toString()"
+					}
                     bat "docker build -t josesc09/suma-rest ."
                 }
             }
