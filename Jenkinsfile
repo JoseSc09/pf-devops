@@ -11,7 +11,7 @@ pipeline{
     stages{
         stage('Build Maven'){
             steps{
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/JoseSc09/pf-devops.git']])
+                git branch: 'main', url: 'https://github.com/JoseSc09/pf-devops.git'
                 bat "mvn clean install"
             }
         }
