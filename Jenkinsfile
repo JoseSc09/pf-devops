@@ -1,5 +1,10 @@
 pipeline{
     agent any
+    parameters{
+        string(name: 'image_name', defaultValue: 'josesc09/suma-rest', description: 'Nombre de la imagen docker.')
+        string(name: 'container_name', defaultValue: 'suma-rest', description: 'Nombre del contenedor docker.')
+        string(name: 'container_port', defaultValue: '8085', description: 'Puerto que usa el contenedor.')
+    }
     tools{
         maven 'maven'
     }
@@ -14,7 +19,9 @@ pipeline{
             steps{
                 script{
 					try{
-						bat "docker rmi josesc09/suma-rest"
+					    bat "docker stop ${container_name}"
+				        bat "docker rm ${container_name }"
+						bat "docker rmi ${image_name}"
 					} catch (Exception e){
 						bat "echo 'Exception ocurred: '+ e.toString()"
 					}
@@ -29,6 +36,13 @@ pipeline{
                         bat "docker login -u josesc09 -p ${dockerhubpwd}"
                     }
                     bat "docker push josesc09/suma-rest"
+                }
+            }
+        }
+        stage('Deploy'){
+            steps{
+                script{
+                    bat "docker run -d -p ${container_port}:8085 --name ${container_name} ${image_name}"
                 }
             }
         }
