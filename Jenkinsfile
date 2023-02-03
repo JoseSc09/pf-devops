@@ -25,7 +25,7 @@ pipeline{
                     } catch (Exception e){
                         bat "echo 'Exception ocurred: '+ e.toString()"
                     }
-                    bat "docker build -t josesc09/suma-rest ."
+                    bat "docker build -t ${image_name} ."
                 }
             }
         }
@@ -35,14 +35,14 @@ pipeline{
                     withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                         bat "docker login -u josesc09 -p ${dockerhubpwd}"
                     }
-                    bat "docker push josesc09/suma-rest"
+                    bat "docker push ${image_name}"
                 }
             }
         }
         stage('Deploy'){
             steps{
                 script{
-                    bat "docker run -d -p ${container_port}:8085 --name ${container_name} ${image_name}"
+                    bat "docker run -d -p ${container_port}:${container_port} --name ${container_name} ${image_name}"
                 }
             }
         }
