@@ -18,12 +18,12 @@ pipeline{
         stage('Build docker image'){
             steps{
                 script{
-					try{
+                    try{
 					    bat "docker stop ${container_name}"
-				        bat "docker rm ${container_name }"
-						bat "docker rmi ${image_name}"
+					    bat "docker rm ${container_name }"
+					    bat "docker rmi ${image_name}"
 					} catch (Exception e){
-						bat "echo 'Exception ocurred: '+ e.toString()"
+					    bat "echo 'Exception ocurred: '+ e.toString()"
 					}
                     bat "docker build -t josesc09/suma-rest ."
                 }
